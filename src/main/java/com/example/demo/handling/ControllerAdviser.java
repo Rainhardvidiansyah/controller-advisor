@@ -1,7 +1,9 @@
 package com.example.demo.handling;
 
+import com.example.demo.exception.NoProductException;
 import com.example.demo.exception.ProductCannotBeSaveException;
 import com.example.demo.response.ApiErrorResponse;
+import com.example.demo.response.ErrorDetails;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -73,4 +76,23 @@ public class ControllerAdviser extends ResponseEntityExceptionHandler {
         return buildResponse(apiError);
     }
 
+//    @Override
+//    @ExceptionHandler(NoProductException.class)
+//    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers,HttpStatusCode status, WebRequest request) {
+//        Map<String, Object> body = new HashMap<>();
+//        body.put("Cause", ex.getCause());
+//        body.put("status", status.value());
+//
+////        return super.handleMissingPathVariable(ex, headers, status, request);
+//        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+//    }
+
+    @ExceptionHandler(NoProductException.class)
+    public ResponseEntity<Object> NoProductException(NoProductException noProductException, WebRequest request){
+        ErrorDetails err = new ErrorDetails();
+        err.setMessage(noProductException.getMessage());
+        err.setDetails(request.getDescription(false));
+        err.setStatus(HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+    }
 }
