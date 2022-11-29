@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Product;
+import com.example.demo.exception.NoProductException;
 import com.example.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,10 @@ public class ProductService {
 
     public Product createProduct(Product product){
         return productRepository.save(product);
+    }
+
+    public Product findProductId(Long id){
+        return productRepository.findById(id).orElseThrow((() -> new NoProductException("Product Not Found")));
     }
 
 }
