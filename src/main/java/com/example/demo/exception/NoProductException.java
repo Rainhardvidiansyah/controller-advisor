@@ -1,8 +1,8 @@
 package com.example.demo.exception;
 
 public class NoProductException extends RuntimeException{
-
-    public NoProductException(String message) {
-        super(String.format("%s", message) );
+    final static String MESSAGE_OF_PRODUCT_NOT_FOUND = "Product Not Found";
+    public NoProductException() {
+        super(MESSAGE_OF_PRODUCT_NOT_FOUND);
     }
 }
