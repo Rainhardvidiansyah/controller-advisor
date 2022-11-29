@@ -23,6 +23,12 @@ public class ProductController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOneProduct(@PathVariable("id") Long id){
+        var product = productService.findProductId(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
 
 
 
