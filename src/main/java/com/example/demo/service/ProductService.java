@@ -20,7 +20,7 @@ public class ProductService {
     }
 
     public Product findProductId(Long id){
-        return productRepository.findById(id).orElseThrow((() -> new NoProductException("Product Not Found")));
+        return productRepository.findById(id).orElseThrow((NoProductException::new));
     }
 
 }
